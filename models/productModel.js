@@ -15,6 +15,8 @@ module.exports =(sequelize,DataTypes)=>{
             type:DataTypes.BOOLEAN
         }
     },
-    {timestamps:false})
+    {
+        timestamps:false
+    })
     return Product
 }

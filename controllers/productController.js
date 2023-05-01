@@ -1,4 +1,4 @@
-const db = require('../models')
+const db = require('../models/index.js')
 
 const Product = db.products
 const Review = db.reviews
