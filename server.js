@@ -16,9 +16,11 @@ app.get("/",(rea,res)=>{
     res.json({message:"Base URL"})
 })
 
-const router = require('./routes/productRouter.js')
-app.use('/api/products',router)
+const userrouter = require('./routes/userRouter.js')
+app.use('/api/users',userrouter)
 
+const taskrouter = require('./routes/taskRouter.js')
+app.use('/api/tasks',taskrouter)
 
 const PORT = process.env.PORT
 
