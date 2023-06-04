@@ -5,22 +5,30 @@ const Task = db.tasks
 
 
 // add task
-const addTask = async (req, res) => {
-
-    let info = {
-        title: req.body.title,
-        description: req.body.description,
-        dueDate: req.body.dueDate,
-        completed: req.body.completed,
-        userId:req.body.userId
-    }
+const addTasks = async (req, res) => {
+    tasks=req.body
+    tasks.map(async (task) => {
+        let info = {
+            id:task.id,
+            title: task.title,
+            description: task.description,
+            dueDate: task.dueDate,
+            completed: task.completed,
+            userId: task.userId
+        };
     
-    const newTask = await Task.create(info)
-    console.log(newTask)
-    res.status(200).send(newTask)
+        try {
+            const newTask = await Task.create(info);
+            console.log(newTask);
+        } catch (error) {
+            console.error(error);
+        }
+    });
+    
+    res.status(200).send(tasks)
 }
 
-// add tasks 
+// get tasks 
 const getTasks = async (req, res) => {
 
     let userTasks = await Task.findAll({
@@ -30,6 +38,32 @@ const getTasks = async (req, res) => {
 
     res.status(200).send(userTasks)
 }
+
+
+// get pending tasks
+
+const getPendingTasks =async (req, res) => {
+
+    let userTasks = await Task.findAll({
+        where: { userId: req.body.userId,completed:0 },
+        include: [User]
+    })
+
+    res.status(200).send(userTasks)
+}
+
+// get completed tasks
+
+const getCompletedTasks =async (req, res) => {
+
+    let userTasks = await Task.findAll({
+        where: { userId: req.body.userId,completed:1 },
+        include: [User]
+    })
+
+    res.status(200).send(userTasks)
+}
+
 
 
 // update task
@@ -54,8 +88,10 @@ const deleteTask = async (req, res) => {
 
 
 module.exports ={
-    addTask,
+    addTasks,
     getTasks,
     updateTask,
-    deleteTask
+    deleteTask,
+    getCompletedTasks,
+    getPendingTasks
 }

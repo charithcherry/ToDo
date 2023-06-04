@@ -19,7 +19,16 @@ const addUser = async (req, res) => {
     res.status(200).send(newUser)
 }
 
+const getUser = async (req, res) => {
+
+    let existingUser = await User.findAll({
+        where: { id: req.body.userId },
+    });
+    res.status(200).send(existingUser)
+}
+
 
 module.exports ={
-    addUser
+    addUser,
+    getUser
 }
